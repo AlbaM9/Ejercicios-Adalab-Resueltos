@@ -2,12 +2,14 @@
     display: flex;
     width: 33vh;
     margin: 15px;
-    border: 2px solid black;
+    border: 5px solid lightgray;
 }
 
 .palette__color {
     width: 40px;
     height: 40px;
+}
 
-
+.selected {
+    background-color: lightblue;
 }
