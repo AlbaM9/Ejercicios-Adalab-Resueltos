@@ -7,21 +7,23 @@ console.log(trianglePattern);
 
 
 function generateTrianglePattern(rows) {
+
     let pattern = '';
+
     for (let i = 0; i <= rows; i++) {
 
         if (i == 0) {
-            pattern += ' '.repeat(rows - i * 2 - 1);
+            pattern += '.'.repeat(rows - i * 2 - 1);
             pattern += '★';
 
         } else if (i == rows) {
 
-            pattern += ' '.repeat(rows * 1 - 1);
+            pattern += '.'.repeat(rows * 1 - 1);
             pattern += "|";
         }
         else {
 
-            pattern += ' '.repeat(rows - i);
+            pattern += '.'.repeat(rows - i);
 
             for (let j = 0; j < i * 2 - 1; j++) {
 

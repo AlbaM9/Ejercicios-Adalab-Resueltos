@@ -1,0 +1,13 @@
+.palette {
+    display: flex;
+    width: 33vh;
+    margin: 15px;
+    border: 2px solid black;
+}
+
+.palette__color {
+    width: 40px;
+    height: 40px;
+
+
+}
