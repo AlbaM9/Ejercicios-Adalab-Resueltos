@@ -38,52 +38,31 @@ function renderPalettes(palettesData) {
     palettesData.forEach(palettes => {
         if (palettes.selected === true) {
             content += `<div class = "completePalette selected" > `
-            content += `
-                 <h3>${palettes.name}</h3>`;
-
-            content += `<div class="palette" >`
-            palettes.colors.forEach(color => {
-
-                content += `
-             <div class="palette__color " id ="${palettes.name}" style ="background-color:#${color}"> </div> `
-            })
-            content += `</div> `
-            content += `</div> `
-
 
         } else {
             content += `<div class = "completePalette" > `
-            content += `
-                 <h3>${palettes.name}</h3>`;
-
-            content += `<div class="palette" >`
-            palettes.colors.forEach(color => {
-
-                content += `
-             <div class="palette__color " id ="${palettes.name}" style ="background-color:#${color}"> </div> `
-            })
-            content += `</div> `
-            content += `</div> `
             palettes.selected = false;
         }
 
+        content += `
+        <h3>${palettes.name}</h3>`;
 
+        content += `<div class="palette" >`
+        palettes.colors.forEach(color => {
 
+            content += `
+        <div class="palette__color " id ="${palettes.name}" style ="background-color:#${color}"> </div> `
+        })
+        content += `</div> `
+        content += `</div> `
     });
 
     console.log(palettes);
-
     paletteList.innerHTML += content;
-    /* const completePalettes = document.querySelectorAll('.completePalette');
-     completePalettes.forEach(completePalette => {
-         completePalette.addEventListener('click', () => {
-             completePalette.classList.toggle("selected");
-         });
- 
-     });*/
+
 }
 
-function handleClickCheckbox(event) {
+function handleClickFavs(event) {
 
     const inputiD = event.target.id
 
@@ -96,14 +75,13 @@ function handleClickCheckbox(event) {
 
     console.log(palettes);
     console.log(palettes[paletteindex]);
+
     if (palettes[paletteindex].selected) {
 
         palettes[paletteindex].selected = false;
     } else {
         palettes[paletteindex].selected = true;
     }
-    //palettes[paletteindex].selected ? true : false;
-
 
     paletteList.innerHTML = "";
     renderPalettes(palettes);
@@ -111,8 +89,7 @@ function handleClickCheckbox(event) {
     localStorage.setItem("myPalettes", JSON.stringify(palettes));
 
 }
-
-paletteList.addEventListener("click", handleClickCheckbox);
+paletteList.addEventListener("click", handleClickFavs);
 
 function handleFilter(event) {
     event.preventDefault();
@@ -128,7 +105,6 @@ function handleFilter(event) {
     console.log(filteredPalettes);
 
 }
-
 searchBtn.addEventListener("click", handleFilter);
 
 
