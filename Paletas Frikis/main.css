@@ -11,5 +11,6 @@
 }
 
 .selected {
-    background-color: lightblue;
+    background-color: rgb(210, 222, 226);
+    padding-bottom: 10px;
 }

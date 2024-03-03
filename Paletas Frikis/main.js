@@ -14,6 +14,7 @@ if (savedPalettes !== null) {
     palettes = savedPalettes;
     renderPalettes(savedPalettes);
 
+
 } else {
     fetch(SERVER_URL)
         .then(response => {
@@ -26,43 +27,92 @@ if (savedPalettes !== null) {
 
             palettes = data.palettes;
             renderPalettes(palettes);
+            localStorage.setItem("myPalettes", JSON.stringify(palettes));
 
         })
 }
-
 
 function renderPalettes(palettesData) {
 
-
     let content = "";
-    palettesData.forEach((palettes, index) => {
-
-        content += `<div class = "completePalette" data-index="${index}"> `
-        content += `
-            <h3>${palettes.name}</h3>`;
-
-        content += `<div class="palette" >`
-        palettes.colors.forEach(color => {
-
+    palettesData.forEach(palettes => {
+        if (palettes.selected === true) {
+            content += `<div class = "completePalette selected" > `
             content += `
-                 <div class="palette__color" style ="background-color:#${color}"> </div> `
-        })
-        content += `</div> `
-        content += `</div> `
+                 <h3>${palettes.name}</h3>`;
+
+            content += `<div class="palette" >`
+            palettes.colors.forEach(color => {
+
+                content += `
+             <div class="palette__color " id ="${palettes.name}" style ="background-color:#${color}"> </div> `
+            })
+            content += `</div> `
+            content += `</div> `
+
+
+        } else {
+            content += `<div class = "completePalette" > `
+            content += `
+                 <h3>${palettes.name}</h3>`;
+
+            content += `<div class="palette" >`
+            palettes.colors.forEach(color => {
+
+                content += `
+             <div class="palette__color " id ="${palettes.name}" style ="background-color:#${color}"> </div> `
+            })
+            content += `</div> `
+            content += `</div> `
+            palettes.selected = false;
+        }
+
+
 
     });
+
+    console.log(palettes);
 
     paletteList.innerHTML += content;
-    const completePalettes = document.querySelectorAll('.completePalette');
-    completePalettes.forEach(completePalette => {
-        completePalette.addEventListener('click', () => {
-            completePalette.classList.toggle("selected");
-        });
-    });
-    localStorage.setItem("myPalettes", JSON.stringify(palettesData));
+    /* const completePalettes = document.querySelectorAll('.completePalette');
+     completePalettes.forEach(completePalette => {
+         completePalette.addEventListener('click', () => {
+             completePalette.classList.toggle("selected");
+         });
+ 
+     });*/
 }
 
-searchBtn.addEventListener("click", handleFilter);
+function handleClickCheckbox(event) {
+
+    const inputiD = event.target.id
+
+    console.log(inputiD);
+    const paletteindex = palettes.findIndex((items) => {
+
+        return items.name === inputiD;
+    })
+    console.log(paletteindex);
+
+    console.log(palettes);
+    console.log(palettes[paletteindex]);
+    if (palettes[paletteindex].selected) {
+
+        palettes[paletteindex].selected = false;
+    } else {
+        palettes[paletteindex].selected = true;
+    }
+    //palettes[paletteindex].selected ? true : false;
+
+
+    paletteList.innerHTML = "";
+    renderPalettes(palettes);
+
+    localStorage.setItem("myPalettes", JSON.stringify(palettes));
+
+}
+
+paletteList.addEventListener("click", handleClickCheckbox);
 
 function handleFilter(event) {
     event.preventDefault();
@@ -76,5 +126,9 @@ function handleFilter(event) {
     paletteList.innerHTML = "";
     renderPalettes(filteredPalettes); // renderiza el nuevo array
     console.log(filteredPalettes);
+
 }
+
+searchBtn.addEventListener("click", handleFilter);
+
 
