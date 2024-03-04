@@ -3,8 +3,11 @@
 const paletteList = document.querySelector(".palettesUl")
 const searchInput = document.querySelector(".searchInput")
 const searchBtn = document.querySelector(".searchBtn")
+const favsBtn = document.querySelector(".favBtn")
 
 let palettes; //la globalizo para poder usarla en el input del botón
+
+
 const savedPalettes = JSON.parse(localStorage.getItem("myPalettes"));
 
 const SERVER_URL = 'https://beta.adalab.es/ejercicios-de-los-materiales/js-ejercicio-de-paletas/data/palettes.json';
@@ -36,8 +39,10 @@ function renderPalettes(palettesData) {
 
     let content = "";
     palettesData.forEach(palettes => {
+
         if (palettes.selected === true) {
             content += `<div class = "completePalette selected" > `
+
 
         } else {
             content += `<div class = "completePalette" > `
@@ -64,28 +69,35 @@ function renderPalettes(palettesData) {
 
 function handleClickFavs(event) {
 
-    const inputiD = event.target.id
+    const inputiD = event.target.id;
 
-    console.log(inputiD);
+    // console.log(inputiD);
     const paletteindex = palettes.findIndex((items) => {
 
         return items.name === inputiD;
-    })
-    console.log(paletteindex);
 
-    console.log(palettes);
-    console.log(palettes[paletteindex]);
+
+    })
+
+
+    //console.log(paletteindex);
+    // console.log(palettes);
+    //console.log(palettes[paletteindex]);
 
     if (palettes[paletteindex].selected) {
 
         palettes[paletteindex].selected = false;
     } else {
+
         palettes[paletteindex].selected = true;
+
     }
 
-    paletteList.innerHTML = "";
-    renderPalettes(palettes);
 
+
+
+    paletteList.innerHTML = "";
+    renderPalettes(palettes); //renderizar paletteIndex caudno se clicke el boton de
     localStorage.setItem("myPalettes", JSON.stringify(palettes));
 
 }
@@ -107,4 +119,20 @@ function handleFilter(event) {
 }
 searchBtn.addEventListener("click", handleFilter);
 
+function handleRenderFavs(event) {
+    event.preventDefault();
+    //renderizar el aray de favorito filtrando el palettes por que xontengan selected true;
+    const favsPalettes = palettes.filter(palette => {
+
+        if (palette.selected === true) {
+            return palette; // retorna los elementos que contengan la clase selected activa
+        }
+        console.log(palette);
+
+    });
+    paletteList.innerHTML = "";
+    renderPalettes(favsPalettes); // renderiza el nuevo array
+    console.log(favsPalettes);
+}
+favsBtn.addEventListener("click", handleRenderFavs);
 
